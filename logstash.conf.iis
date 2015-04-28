@@ -1,20 +1,20 @@
-			input {  
-			      tcp {
-			              type => "iis"
-			              port => 5555
-			              host => "<IP ADDRESS>"
-			      }
-			}
-			filter {  
-			    if [type] == "iis" {
-			        grok {
-			            match => ["@message", "%{TIMESTAMP_ISO8601:timestamp} %{IPORHOST:hostip} %{WORD:method} %{URIPATH:page} %{NOTSPACE:query} %{NUMBER:port} %{NOTSPACE:username} %{IPORHOST:clientip} %{NOTSPACE:useragent} %{NOTSPACE:referrer} %{NUMBER:response} %{NUMBER:subresponse} %{NUMBER:scstatus} %{NUMBER:timetaken}"]
-			        }
-			    }
-			}
-			output {  
-			    elasticsearch_http {
-			        host => "<IP ADDRESS>"
-			        port => "9200"
-			    }
-			}
+input {  
+	tcp {
+		type => "iis"
+		port => 5555
+		host => "<IP ADDRESS>"
+	}
+}
+filter {  
+	if [type] == "iis" {
+		grok {
+		 match => ["@message", "%{TIMESTAMP_ISO8601:timestamp} %{IPORHOST:hostip} %{WORD:method} %{URIPATH:page} %{NOTSPACE:query} %{NUMBER:port} %{NOTSPACE:username} %{IPORHOST:clientip} %{NOTSPACE:useragent} %{NOTSPACE:referrer} %{NUMBER:response} %{NUMBER:subresponse} %{NUMBER:scstatus} %{NUMBER:timetaken}"]
+		}
+	}
+}
+output {  
+	elasticsearch_http {
+		host => "<IP ADDRESS>"
+		port => "9200"
+	}
+}
