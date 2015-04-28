@@ -1,0 +1,25 @@
+upstream kibana {
+server 127.0.0.1:5601 fail_timeout=0;
+}
+
+server {
+listen      80;
+server_name _;
+return 301 https://localhost;
+}
+
+server {
+listen                *:443 ;
+ssl on;
+ssl_certificate /etc/nginx/ssl/server.crt;
+ssl_certificate_key /etc/nginx/ssl/server.key;
+
+server_name           vdev-elk-01.wisleg.root.local;
+access_log            /var/log/nginx/kibana.access.log;
+
+location / {
+auth_basic "Restricted";
+auth_basic_user_file /etc/nginx/conf.d/kibana.htpasswd;
+proxy_pass http://localhost:5601;
+}
+}
