@@ -24,7 +24,7 @@ Created by: Paul Braunschweig
 [Int]$toolmenu = read-host "Please enter an option 1 through 7 and press enter..." }
 
 switch ($toolmenu){
-1 {clear ; & $PSScriptRoot\scripts\installtoolbox.ps1}
+1 {clear ; get-toolbox}
 2 {clear ; & $PSScriptRoot\scripts\installprofile.ps1}
 3 {clear ; & $PSScriptRoot\scripts\start_updates.ps1}
 4 {clear ; & $PSScriptRoot\scripts\}
@@ -38,6 +38,26 @@ switch ($toolmenu){
 
 } while ( $toolmenu -ne 10)
 
+}
+
+Function get-toolbox {
+
+#little bit of setup
+$test = (Test-Path $profile)
+
+$user = Read-Host "Please enter your username"
+
+if ($test -eq $false) {
+
+$content = (Invoke-WebRequest -Uri https://raw.githubusercontent.com/sinns804/elkstackfiles/master/Microsoft.PowerShell_profile.ps1 -UseBasicParsing).content
+
+New-Item "C:\Users\pbraunsc\Documents\WindowsPowerShell" -ItemType directory
+
+$content | Out-File "C:\Users\$user\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1"
+
+Write-Host "Completed: If you experinced any errors the a profile might already exist, delete it and try again."
+
+    }
 }
 
 Function Get-Wallpapers {
