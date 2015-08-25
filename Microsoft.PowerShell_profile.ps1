@@ -3,6 +3,43 @@
 #My Profile, sets the location to C and edits the window a little. Functions below are neat. 
 ######
 
+function toolbox ($default, $paul, $basic) {
+
+do {
+
+[int]$toolmenu = 0
+
+while ( $toolmenu -lt 1 -or $toolmenu -gt 10 ){
+
+clear
+Write-Host "Welcome to the toolbox, if you have never used this please select #1 to install the toolbox.
+1.Install toolbox  |   2.Install Pauls Full PS Profile
+3.Update Windows   |   4.
+5.                 |   6.
+7.                 |   8.
+9.Run as admin     |   10.Exit
+
+Created by: Paul Braunschweig
+"
+[Int]$toolmenu = read-host "Please enter an option 1 through 7 and press enter..." }
+
+switch ($toolmenu){
+1 {clear ; & $PSScriptRoot\scripts\installtoolbox.ps1}
+2 {clear ; & $PSScriptRoot\scripts\installprofile.ps1}
+3 {clear ; & $PSScriptRoot\scripts\start_updates.ps1}
+4 {clear ; & $PSScriptRoot\scripts\}
+5 {clear ; & $PSScriptRoot\scripts\}
+6 {clear ; & $PSScriptRoot\scripts\}
+7 {clear ; & $PSScriptRoot\scripts\}
+8 {clear ; & $PSScriptRoot\scripts\}
+9 {clear ; & $PSScriptRoot\scripts\}
+10 {Break}
+} 
+
+} while ( $toolmenu -ne 10)
+
+}
+
 Function Get-Wallpapers {
 
 (irm http://www.reddit.com/r/wallpapers/.json).data.children.data|% {iwr $_.url -outfile ("c:\backgrounds\" + $_.url.split('/')[-1])} 
@@ -52,7 +89,6 @@ $size.height=5000
 $Shell.BufferSize = $size
 $shell.BackgroundColor = “Gray”
 $shell.ForegroundColor = “Black”
-
 
 
 new-item alias:rdp -value Get-Remote
